@@ -10,6 +10,7 @@ __pycache__/
 .venv/
 venv/
 env/
+node_modules/
 
 # Local config and secrets
 .env
@@ -34,4 +35,3 @@ fixtures/private/
 Thumbs.db
 .idea/
 .vscode/
-

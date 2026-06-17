@@ -1,18 +1,1024 @@
 {
-  "source": "src/ccf_contact_vetting/workbook_schema.py",
-  "note": "Generated-compatible reference for the initial Google Sheet workbook schema. The Python module is the editable source of truth.",
   "tabs": [
-    "Dashboard",
-    "Drive Inventory",
-    "Sync Runs",
-    "Structure Suggestions",
-    "People",
-    "Companies",
-    "Deals Projects",
-    "Relationships",
-    "Research Queue",
-    "Sources",
-    "Who Should Talk To Who",
-    "Review Log"
+    {
+      "name": "Dashboard",
+      "purpose": "High-level operating status.",
+      "columns": [
+        {
+          "name": "Metric",
+          "description": "Status metric name.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Value",
+          "description": "Current metric value.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Owner",
+          "description": "Person responsible for the metric.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Updated At",
+          "description": "Last update timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Link",
+          "description": "Optional supporting Drive or Sheet link.",
+          "kind": "url",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Drive Inventory",
+      "purpose": "One row per Drive file, folder, or shortcut discovered under the configured root folder.",
+      "columns": [
+        {
+          "name": "Drive File ID",
+          "description": "Stable Google Drive file identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Name",
+          "description": "Current Drive item name.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "MIME Type",
+          "description": "Google Drive MIME type.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Item Type",
+          "description": "Folder, File, Shortcut, or Unknown.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Current Path",
+          "description": "Best known path from the configured root folder.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Parent Folder ID",
+          "description": "Immediate parent folder identifier.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Drive URL",
+          "description": "Drive web link.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Created At",
+          "description": "Drive creation timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Modified At",
+          "description": "Drive modified timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Last Seen At",
+          "description": "Most recent sync timestamp that saw this item.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Parsed Status",
+          "description": "Not Parsed, Parsed, Skipped, Error, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Entity Links",
+          "description": "People, companies, deals, or sources linked to this item.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Content Fingerprint",
+          "description": "Optional content or metadata fingerprint for change detection.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Inventory notes.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Sync Runs",
+      "purpose": "Audit trail for automated or prompted folder scans.",
+      "columns": [
+        {
+          "name": "Run ID",
+          "description": "Stable sync run identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Trigger",
+          "description": "Manual, Prompted, Scheduled, Webhook, or Full Rebuild.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Root Folder ID",
+          "description": "Configured Drive root folder identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Started At",
+          "description": "Run start timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Completed At",
+          "description": "Run completion timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Status",
+          "description": "Running, Complete, Failed, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Items Scanned",
+          "description": "Total discovered items.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "New Items",
+          "description": "New item count.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "Modified Items",
+          "description": "Modified item count.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "Removed Items",
+          "description": "Removed item count.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "Moved Or Renamed Items",
+          "description": "Moved or renamed item count.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "Errors",
+          "description": "Error count or summary.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Run notes.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Structure Suggestions",
+      "purpose": "Approval queue for AI-suggested Drive folder cleanup actions.",
+      "columns": [
+        {
+          "name": "Suggestion ID",
+          "description": "Stable suggestion identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Suggestion Type",
+          "description": "Rename, Move, Merge Review, Split Review, or Other.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Target File ID",
+          "description": "Drive file or folder identifier for the proposed action.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Target Name",
+          "description": "Current target name.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Current Path",
+          "description": "Current Drive path.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Proposed Path",
+          "description": "Proposed Drive path when applicable.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Proposed Name",
+          "description": "Proposed Drive name when applicable.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Reason",
+          "description": "Why the suggestion was made.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Confidence",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Status",
+          "description": "Proposed, Approved, Rejected, Applied, or Superseded.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Approved By",
+          "description": "Human approver.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Approved At",
+          "description": "Approval timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Applied At",
+          "description": "Application timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Reviewer notes.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "People",
+      "purpose": "One row per known person.",
+      "columns": [
+        {
+          "name": "Person ID",
+          "description": "Stable person identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Full Name",
+          "description": "Best known full name.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Known Aliases",
+          "description": "Alternate names, spellings, or initials.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Primary Company",
+          "description": "Current or most relevant company.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Title",
+          "description": "Known title or role.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Email",
+          "description": "Known email address.",
+          "kind": "email",
+          "required": false
+        },
+        {
+          "name": "Phone",
+          "description": "Known phone number.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Location",
+          "description": "Known city, state, or region.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Contact Folder",
+          "description": "Drive folder for the person.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Related Deals",
+          "description": "Deal or project identifiers.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Related Companies",
+          "description": "Company identifiers.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Relationship Summary",
+          "description": "Plain-English relationship summary.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Vetting Status",
+          "description": "Not Started, In Progress, Reviewed, or Blocked.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Risk Level",
+          "description": "None, Low, Medium, High, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Confidence",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Research Memo",
+          "description": "Drive link to research memo.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Source Links",
+          "description": "Evidence links supporting the row.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Last Researched At",
+          "description": "Last research timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Next Action",
+          "description": "Recommended next action.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Human Review Notes",
+          "description": "Reviewer notes and unresolved questions.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Companies",
+      "purpose": "One row per known company.",
+      "columns": [
+        {
+          "name": "Company ID",
+          "description": "Stable company identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Company Name",
+          "description": "Best known company name.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Known Aliases",
+          "description": "Alternate names or DBA names.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Website",
+          "description": "Company website.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Industry",
+          "description": "Industry or operating category.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Headquarters",
+          "description": "Known headquarters or principal location.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Principals",
+          "description": "Known principals or key people.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Related People",
+          "description": "Person identifiers.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Related Deals",
+          "description": "Deal or project identifiers.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Company Folder",
+          "description": "Drive folder for the company.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Vetting Status",
+          "description": "Not Started, In Progress, Reviewed, or Blocked.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Risk Level",
+          "description": "None, Low, Medium, High, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Confidence",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Research Memo",
+          "description": "Drive link to research memo.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Source Links",
+          "description": "Evidence links supporting the row.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Last Researched At",
+          "description": "Last research timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Next Action",
+          "description": "Recommended next action.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Human Review Notes",
+          "description": "Reviewer notes and unresolved questions.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Deals Projects",
+      "purpose": "One row per deal, project, or opportunity.",
+      "columns": [
+        {
+          "name": "Deal ID",
+          "description": "Stable deal or project identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Deal Project Name",
+          "description": "Name of the deal, project, or opportunity.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Status",
+          "description": "Current status.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Type",
+          "description": "Deal, project, opportunity, referral, or other type.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Amount",
+          "description": "Known dollar amount.",
+          "kind": "currency",
+          "required": false
+        },
+        {
+          "name": "Location",
+          "description": "Project or collateral location.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Borrower Sponsor",
+          "description": "Known borrower, sponsor, or principal.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Lender Investor",
+          "description": "Known lender, investor, or capital source.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Related People",
+          "description": "Person identifiers.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Related Companies",
+          "description": "Company identifiers.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Source Documents",
+          "description": "Drive links for source documents.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Missing Information",
+          "description": "Known gaps.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Priority",
+          "description": "Operating priority.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Next Action",
+          "description": "Recommended next action.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Owner",
+          "description": "Internal owner.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Updated At",
+          "description": "Last update timestamp.",
+          "kind": "datetime",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Relationships",
+      "purpose": "Evidence-backed links between people, companies, and deals.",
+      "columns": [
+        {
+          "name": "Relationship ID",
+          "description": "Stable relationship identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Subject Type",
+          "description": "Person, Company, or Deal Project.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Subject ID",
+          "description": "Stable subject identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Subject Name",
+          "description": "Human-readable subject name.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Relationship Type",
+          "description": "Role or relationship type.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Object Type",
+          "description": "Person, Company, or Deal Project.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Object ID",
+          "description": "Stable object identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Object Name",
+          "description": "Human-readable object name.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Evidence Link",
+          "description": "Source evidence link.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Confidence",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "First Seen At",
+          "description": "First observed timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Last Confirmed At",
+          "description": "Last confirmed timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Relationship notes.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Research Queue",
+      "purpose": "Work queue for agent-assisted research.",
+      "columns": [
+        {
+          "name": "Queue ID",
+          "description": "Stable queue item identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Entity Type",
+          "description": "Person or Company.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Entity ID",
+          "description": "Stable entity identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Entity Name",
+          "description": "Human-readable entity name.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Priority",
+          "description": "Research priority.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Research Goal",
+          "description": "Question the research run should answer.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Status",
+          "description": "Queued, In Progress, Complete, Blocked, or Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Assigned To",
+          "description": "Agent or person assigned.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Search Terms",
+          "description": "Search terms to use or audit.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Findings Summary",
+          "description": "Concise result summary.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Output Folder",
+          "description": "Drive folder for filed research.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Last Attempt At",
+          "description": "Last research attempt timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Next Attempt At",
+          "description": "Next scheduled attempt timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Human Review Required",
+          "description": "Whether a human must review.",
+          "kind": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Sources",
+      "purpose": "Source library for Drive files and public web evidence.",
+      "columns": [
+        {
+          "name": "Source ID",
+          "description": "Stable source identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Source Type",
+          "description": "Drive File, Web Page, Registry, News, Court, or Other.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Title",
+          "description": "Source title.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "URL Or Drive Link",
+          "description": "Source URL or Drive link.",
+          "kind": "url",
+          "required": false
+        },
+        {
+          "name": "Related Entity Type",
+          "description": "Person, Company, Deal Project, or Relationship.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Related Entity ID",
+          "description": "Stable related entity identifier.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Extracted Facts",
+          "description": "Facts supported by this source.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Accessed At",
+          "description": "Access timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Reliability",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Source notes.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Who Should Talk To Who",
+      "purpose": "Outreach and introduction recommendations.",
+      "columns": [
+        {
+          "name": "Recommendation ID",
+          "description": "Stable recommendation identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "From Person",
+          "description": "Recommended sender or introducer.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "To Person",
+          "description": "Recommended recipient.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Related Deal Project",
+          "description": "Relevant deal or project.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Recommendation Type",
+          "description": "Intro, follow-up, diligence, or relationship warm-up.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Why",
+          "description": "Reason for the recommendation.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Mutual Path",
+          "description": "Known relationship path.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Priority",
+          "description": "Outreach priority.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Suggested Angle",
+          "description": "Suggested outreach angle for human review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Evidence Links",
+          "description": "Supporting evidence links.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Status",
+          "description": "Proposed, Approved, Sent, Snoozed, or Declined.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Owner",
+          "description": "Internal owner.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Updated At",
+          "description": "Last update timestamp.",
+          "kind": "datetime",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Review Log",
+      "purpose": "Human review trail and audit notes.",
+      "columns": [
+        {
+          "name": "Review ID",
+          "description": "Stable review identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Item Type",
+          "description": "Person, Company, Deal Project, Relationship, or Source.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Item ID",
+          "description": "Stable item identifier.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Reviewer",
+          "description": "Human reviewer.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Decision",
+          "description": "Approved, Corrected, Rejected, Needs Follow Up, or Deferred.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Review notes.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Reviewed At",
+          "description": "Review timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Follow Up Required",
+          "description": "Whether follow up is needed.",
+          "kind": "boolean",
+          "required": false
+        }
+      ]
+    }
   ]
 }
