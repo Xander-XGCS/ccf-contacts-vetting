@@ -41,6 +41,8 @@ Suggested bands:
 
 The score should consider identity confidence, source quality, professional track record, deal relevance, risk flag severity, positive signals, and unresolved questions. Serious risk flags or uncertain identity should cap the grade at `Needs Review` until a human reviews it.
 
+For high-risk transaction categories such as commodity SCOs, proof-of-funds/proof-of-product workflows, mandate chains, or bank-to-bank settlement claims, human review should remain required even when a public identity appears credible.
+
 ## Red Flags
 
 Potential red flags should be descriptive, source-backed, and neutral. Examples:

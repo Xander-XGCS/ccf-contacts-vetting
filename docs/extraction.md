@@ -39,4 +39,6 @@ The Drive text adapter now accepts readable text for supported Drive file record
 
 The parser run planner now adds a dry-run boundary around that flow. It can skip unsupported inventory rows, record fetch errors without stopping the whole run, collect rows by destination tab, and build Sheets `appendCells` requests once live sheet metadata has provided the target `sheetId` values.
 
+The vetting helper builds consistent `Vetting Research` and `Human Review` rows with stable IDs, credibility grades, confidence fields, and human-review flags. It keeps credibility scoring reviewable instead of burying it in freeform notes.
+
 The next live connector step is to fetch readable text from Google Docs, PDFs, Word documents, and plain-text files, match candidates against existing Sheet rows, and append only new or review-needed candidates.
