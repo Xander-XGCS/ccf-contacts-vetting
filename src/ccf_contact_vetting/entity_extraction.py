@@ -6,7 +6,9 @@ from dataclasses import dataclass, field
 
 
 EMAIL_RE = re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE)
-PHONE_RE = re.compile(r"(?:\+?1[\s.-]?)?(?:\(?\d{3}\)?[\s.-]?)\d{3}[\s.-]?\d{4}\b")
+PHONE_RE = re.compile(
+    r"(?:\+\d{1,3}[\s.-]?)?(?:\(?\d{2,4}\)?[\s.-]?)\d{3,4}[\s.-]?\d{3,4}\b"
+)
 URL_RE = re.compile(r"https?://[^\s<>)\"']+", re.IGNORECASE)
 
 PERSON_RE = re.compile(
@@ -42,6 +44,17 @@ ORG_WORDS = {
     "opportunity",
     "program",
     "asset",
+    "allocation",
+    "allocations",
+    "banking",
+    "confidentiality",
+    "fresh",
+    "gold",
+    "indemnity",
+    "institutional",
+    "jurisdiction",
+    "procedures",
+    "specialist",
     "offering",
     "transaction",
     "dossier",
@@ -56,6 +69,7 @@ PERSON_STOP_PHRASES = {
     "Private Placement",
     "Relationship Intelligence",
     "Source Documents",
+    "Gold Specialist",
 }
 
 

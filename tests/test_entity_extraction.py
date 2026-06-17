@@ -45,6 +45,28 @@ class EntityExtractionTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertTrue(first.startswith("person_"))
 
+    def test_email_subject_phrases_do_not_become_people(self) -> None:
+        result = extract_text_entities(
+            (
+                "Subject: Fresh Gold Allocations Now Available - Institutional Banking Procedures\n"
+                "Regards\n"
+                "Richard Boxall - Gold Specialist\n"
+                "Tel : +27-833-771128\n"
+                "email: sourcing@igrsg.co.za\n"
+                "Infinity Global Resource Sourcing Group"
+            ),
+            TextSource("source", "Boxall Email"),
+        )
+
+        people = {person.name for person in result.people}
+        phones = {contact.value for contact in result.contact_points if contact.contact_type == "Phone"}
+
+        self.assertIn("Richard Boxall", people)
+        self.assertNotIn("Fresh Gold Allocations Now", people)
+        self.assertNotIn("Institutional Banking Procedures", people)
+        self.assertNotIn("Gold Specialist", people)
+        self.assertIn("+27-833-771128", phones)
+
     def test_sheet_rows_match_workbook_schema_widths(self) -> None:
         source = TextSource(source_id="source", title="Source Title", url="https://example.com/source")
         result = extract_text_entities(
