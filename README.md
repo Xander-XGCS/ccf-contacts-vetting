@@ -102,6 +102,8 @@ See [docs/extraction.md](docs/extraction.md) for how deterministic extraction, d
 The Drive text extraction bridge converts readable Drive file text into Sheet-ready candidate rows for review tabs.
 The parser run planner supports dry-run summaries before any live Sheet append.
 The vetting helper creates consistent credibility and human-review rows for researched people and companies.
+OCR fallback supports scanned PDFs/images when native text extraction returns empty; see [docs/ocr.md](docs/ocr.md).
+Profile summaries should refresh when entity evidence changes; see [docs/profile-refresh.md](docs/profile-refresh.md).
 
 Spreadsheet-triggered research can be added with a bound Apps Script menu; see [docs/spreadsheet-trigger.md](docs/spreadsheet-trigger.md).
 

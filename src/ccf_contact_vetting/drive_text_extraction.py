@@ -14,6 +14,7 @@ from .entity_extraction import (
     person_sheet_row,
     research_queue_row,
 )
+from .ocr import SUPPORTED_OCR_MIME_TYPES
 
 
 GOOGLE_DOC_MIME_TYPE = "application/vnd.google-apps.document"
@@ -62,6 +63,10 @@ class ExtractedSheetRows:
 
 def is_supported_text_record(record: DriveItemRecord) -> bool:
     return record.item_type == "File" and record.mime_type in SUPPORTED_TEXT_MIME_TYPES
+
+
+def is_supported_ocr_record(record: DriveItemRecord) -> bool:
+    return record.item_type == "File" and record.mime_type in SUPPORTED_OCR_MIME_TYPES
 
 
 def drive_record_to_text_source(record: DriveItemRecord) -> TextSource:

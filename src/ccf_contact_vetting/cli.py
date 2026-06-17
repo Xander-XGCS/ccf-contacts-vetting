@@ -17,6 +17,7 @@ from .drive_manifest import (
 )
 from .entity_extraction import TextSource, extract_text_entities
 from .local_inventory import inventory_path, write_inventory_csv
+from .ocr import OcrConfig, ocr_file
 from .workbook_schema import schema_as_json, schema_as_markdown
 
 
@@ -76,6 +77,25 @@ def main(argv: list[str] | None = None) -> int:
             sys.stdout.write(content)
         return 0
 
+    if args.command == "ocr-file":
+        text = ocr_file(
+            args.input,
+            args.mime_type,
+            OcrConfig(
+                tesseract_cmd=args.tesseract_cmd,
+                pdftoppm_cmd=args.pdftoppm_cmd,
+                language=args.language,
+                dpi=args.dpi,
+                max_pdf_pages=args.max_pdf_pages,
+            ),
+        )
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(text, encoding="utf-8")
+        else:
+            sys.stdout.write(text)
+        return 0
+
     parser.print_help()
     return 1
 
@@ -116,6 +136,16 @@ def build_parser() -> argparse.ArgumentParser:
     extract.add_argument("--title")
     extract.add_argument("--url")
     extract.add_argument("--output", type=Path)
+
+    ocr = subparsers.add_parser("ocr-file", help="OCR a local PDF or image file into UTF-8 text.")
+    ocr.add_argument("--input", type=Path, required=True)
+    ocr.add_argument("--mime-type", required=True, help="MIME type, e.g. application/pdf or image/png.")
+    ocr.add_argument("--output", type=Path)
+    ocr.add_argument("--tesseract-cmd", default="tesseract")
+    ocr.add_argument("--pdftoppm-cmd", default="pdftoppm")
+    ocr.add_argument("--language", default="eng")
+    ocr.add_argument("--dpi", type=int, default=300)
+    ocr.add_argument("--max-pdf-pages", type=int, default=10)
 
     return parser
 

@@ -30,6 +30,7 @@ If a folder is moved out of the root operating scope, record its Drive folder ID
 5. Parse only new and modified files unless the run is a full rebuild.
 6. Update `File Inventory` and `Updates`.
 7. Queue entity extraction and research from changed files.
+8. Refresh any profile summaries affected by changed entity-folder evidence.
 
 ## File Structure Suggestions
 
@@ -69,3 +70,4 @@ Only `Approved` rows can be applied by a future Drive update command.
 - Preserve original source documents.
 - Prefer adding research memos and metadata over modifying originals.
 - Log every applied file operation with the old path, new path, approver, and timestamp.
+- If OCR is needed but unavailable or empty, mark the file `Needs Review` instead of treating it as parsed.

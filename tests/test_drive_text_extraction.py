@@ -7,6 +7,7 @@ from ccf_contact_vetting.drive_text_extraction import (
     extracted_sheet_rows,
     extract_drive_document,
     extract_drive_record_text,
+    is_supported_ocr_record,
     is_supported_text_record,
 )
 
@@ -16,6 +17,12 @@ class DriveTextExtractionTests(unittest.TestCase):
         self.assertTrue(is_supported_text_record(record("file-1", "Memo.pdf", "application/pdf")))
         self.assertFalse(is_supported_text_record(record("folder-1", "Contacts", FOLDER_MIME_TYPE, item_type="Folder")))
         self.assertFalse(is_supported_text_record(record("image-1", "Photo.png", "image/png")))
+
+    def test_supported_ocr_record_allows_pdf_and_images(self) -> None:
+        self.assertTrue(is_supported_ocr_record(record("pdf-1", "Seller CIS.pdf", "application/pdf")))
+        self.assertTrue(is_supported_ocr_record(record("image-1", "Seller CIS.png", "image/png")))
+        self.assertFalse(is_supported_ocr_record(record("doc-1", "Memo.txt", "text/plain")))
+        self.assertFalse(is_supported_ocr_record(record("folder-1", "Contacts", FOLDER_MIME_TYPE, item_type="Folder")))
 
     def test_extract_drive_record_text_uses_drive_path_as_source_title(self) -> None:
         result = extract_drive_record_text(

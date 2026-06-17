@@ -48,8 +48,9 @@ GitHub should never store private contacts, confidential deal files, or raw rese
 7. Queue entities for research.
 8. Research public sources and capture evidence.
 9. File research memos into Drive.
-10. Update the workbook with summaries, links, confidence, and review status.
-11. Recommend outreach paths and next best actions.
+10. Refresh affected profile summaries when new evidence, OCR text, or research results change an entity.
+11. Update the workbook with summaries, links, confidence, and review status.
+12. Recommend outreach paths and next best actions.
 
 ## Incremental Sync
 
@@ -96,3 +97,7 @@ Deterministic code owns crawling, manifest diffing, stable IDs, sheet row constr
 AI-assisted steps should sit behind those rails. They can summarize documents, interpret relationship context, perform public web vetting, draft credibility notes, and recommend introductions, but their outputs should retain source links, confidence levels, and review statuses.
 
 Live parse runs should support a dry-run mode before any spreadsheet append. A dry run fetches text from supported Drive files, reports parse counts and planned row counts by tab, and leaves the live Sheet unchanged until the operator approves the append.
+
+Scanned PDFs and images should use OCR when native text extraction is empty. OCR output is treated as evidence text with lower source confidence until reviewed, not as a separate trusted source.
+
+Profile summaries are generated artifacts and should be refreshed whenever entity-folder evidence changes. If a run discovers new evidence but cannot update the profile immediately, the workbook should mark that profile stale and queue a refresh.
