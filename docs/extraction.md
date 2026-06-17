@@ -35,4 +35,6 @@ The system should require human approval before:
 
 ## Next Connector Step
 
-The next integration step is to fetch readable text from supported Drive file types, pass that text through the deterministic extractor, match candidates against existing Sheet rows, and append new candidates to the review tabs.
+The Drive text adapter now accepts readable text for supported Drive file records, passes it through the deterministic extractor, and builds row bundles for `People`, `Companies`, `Deals & Projects`, `Evidence Sources`, and `Research Queue`.
+
+The next live connector step is to fetch readable text from Google Docs, PDFs, Word documents, and plain-text files, match candidates against existing Sheet rows, and append only new or review-needed candidates.

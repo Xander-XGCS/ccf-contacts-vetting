@@ -36,7 +36,15 @@ ORG_WORDS = {
     "limited",
     "llc",
     "partners",
+    "project",
     "ventures",
+    "deal",
+    "opportunity",
+    "program",
+    "asset",
+    "offering",
+    "transaction",
+    "dossier",
 }
 
 PERSON_STOP_PHRASES = {
@@ -316,7 +324,9 @@ def _trim_company_name(name: str) -> str:
 
 
 def _trim_deal_name(name: str) -> str:
-    return re.sub(r"^(?:A|An|The)\s+", "", name).strip()
+    parts = re.split(r"\b(?:at|by|for|from|into|through|to|with)\s+", name, flags=re.IGNORECASE)
+    trimmed = parts[-1].strip() if parts else name
+    return re.sub(r"^(?:a|an|the)\s+", "", trimmed, flags=re.IGNORECASE).strip()
 
 
 def _looks_like_person(name: str, company_keys: set[str]) -> bool:
