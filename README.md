@@ -91,6 +91,14 @@ Generate approval-gated file structure suggestions from a Drive manifest:
 $env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli structure-suggestions --manifest outputs\drive_manifest.json --root-id "<folder-id>" --output outputs\structure_suggestions.csv
 ```
 
+Extract entity candidates from a local text file:
+
+```powershell
+$env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli extract-text --input outputs\sample.txt --source-id "<drive-file-id>" --title "Sample Source"
+```
+
+See [docs/extraction.md](docs/extraction.md) for how deterministic extraction, duplicate matching, and AI-assisted vetting are separated.
+
 ## Roadmap
 
 1. Define the workbook schema and Drive evidence model.

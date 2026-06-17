@@ -42,8 +42,8 @@ GitHub should never store private contacts, confidential deal files, or raw rese
 1. Inventory source folders and files.
 2. Compare the current Drive manifest against the prior manifest.
 3. Record new, modified, removed, moved, and renamed items.
-4. Extract entities and relationship hints from changed or unprocessed files.
-5. Normalize duplicates and uncertain identities.
+4. Extract entities and contact points from changed or unprocessed files using deterministic rules.
+5. Normalize duplicates and route uncertain identity matches to review.
 6. Update the workbook with structured rows.
 7. Queue entities for research.
 8. Research public sources and capture evidence.
@@ -88,3 +88,9 @@ The automation should flag uncertainty rather than bury it. Human review is requ
 - Recommended outreach involving sensitive relationships
 - Any conclusion that depends on private or non-public information
 - Any proposed Drive file move, folder move, or rename
+
+## Deterministic Versus AI-Assisted
+
+Deterministic code owns crawling, manifest diffing, stable IDs, sheet row construction, exact matching, and review queue creation.
+
+AI-assisted steps should sit behind those rails. They can summarize documents, interpret relationship context, perform public web vetting, draft credibility notes, and recommend introductions, but their outputs should retain source links, confidence levels, and review statuses.

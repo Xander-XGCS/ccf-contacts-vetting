@@ -23,9 +23,10 @@
 ## Phase 3: Extraction
 
 - Parse supported file types.
-- Extract people, companies, emails, phone numbers, addresses, deal names, and dates.
+- Extract people, companies, emails, phone numbers, URLs, deal names, and dates.
 - Create relationship candidates with evidence links.
 - Add duplicate detection and confidence scoring.
+- Append deterministic extraction candidates to review-friendly Sheet tabs.
 
 ## Phase 4: Research
 

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from dataclasses import asdict
 from pathlib import Path
 
 from .drive_manifest import (
@@ -13,6 +15,7 @@ from .drive_manifest import (
     write_json_dataclasses,
     write_suggestions_csv,
 )
+from .entity_extraction import TextSource, extract_text_entities
 from .local_inventory import inventory_path, write_inventory_csv
 from .workbook_schema import schema_as_json, schema_as_markdown
 
@@ -61,6 +64,18 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Wrote {len(suggestions)} structure suggestions to {args.output}")
         return 0
 
+    if args.command == "extract-text":
+        text = args.input.read_text(encoding="utf-8")
+        source = TextSource(source_id=args.source_id, title=args.title or args.input.stem, url=args.url or "")
+        result = extract_text_entities(text, source)
+        content = json.dumps(asdict(result), indent=2)
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(content, encoding="utf-8")
+        else:
+            sys.stdout.write(content)
+        return 0
+
     parser.print_help()
     return 1
 
@@ -94,6 +109,13 @@ def build_parser() -> argparse.ArgumentParser:
     suggestions.add_argument("--root-id", required=True)
     suggestions.add_argument("--output", type=Path, required=True)
     suggestions.add_argument("--format", choices=("csv", "json"), default="csv")
+
+    extract = subparsers.add_parser("extract-text", help="Extract entity candidates from a UTF-8 text file.")
+    extract.add_argument("--input", type=Path, required=True)
+    extract.add_argument("--source-id", required=True)
+    extract.add_argument("--title")
+    extract.add_argument("--url")
+    extract.add_argument("--output", type=Path)
 
     return parser
 
