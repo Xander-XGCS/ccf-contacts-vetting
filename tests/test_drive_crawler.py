@@ -52,6 +52,31 @@ class DriveCrawlerTests(unittest.TestCase):
         self.assertEqual([item.file_id for item in result.items], ["root", "shortcut"])
         self.assertEqual(lister.calls, ["root"])
 
+    def test_excludes_out_of_scope_folders(self) -> None:
+        lister = FakeLister(
+            {
+                "root": [
+                    folder("active", "Active", "root"),
+                    folder("moved", "Moved Elsewhere", "root"),
+                ],
+                "active": [
+                    file("active-file", "Active.pdf", "active"),
+                ],
+                "moved": [
+                    file("moved-file", "Moved.pdf", "moved"),
+                ],
+            }
+        )
+
+        result = crawl_drive_tree("root", lister, root_name="Root", excluded_folder_ids={"moved"})
+        item_ids = {item.file_id for item in result.items}
+
+        self.assertIn("active", item_ids)
+        self.assertIn("active-file", item_ids)
+        self.assertNotIn("moved", item_ids)
+        self.assertNotIn("moved-file", item_ids)
+        self.assertEqual(lister.calls, ["root", "active"])
+
     def test_depth_limit_records_error(self) -> None:
         lister = FakeLister({"root": [folder("child", "Child", "root")]})
 
@@ -101,4 +126,3 @@ def shortcut(file_id: str, name: str, parent_id: str) -> DriveListItem:
 
 if __name__ == "__main__":
     unittest.main()
-

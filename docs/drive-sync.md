@@ -12,6 +12,8 @@ GOOGLE_DRIVE_ROOT_FOLDER_ID=<folder-id>
 
 Do not commit the real folder ID or any generated manifest containing private file names to the public repository.
 
+If a folder is moved out of the root operating scope, record its Drive folder ID in local/private runtime configuration as an excluded folder. Exclusions should be ID-based, not name-based, because names can be duplicated or changed. The crawler skips excluded folders and their descendants.
+
 ## Sync Modes
 
 - `Manual`: run only when a person asks.

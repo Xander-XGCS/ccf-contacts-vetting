@@ -57,6 +57,7 @@ def crawl_drive_tree(
     lister: DriveFolderLister,
     *,
     root_name: str = "Complete Capital Funding",
+    excluded_folder_ids: set[str] | None = None,
     max_depth: int = 25,
     max_items: int = 25_000,
 ) -> CrawlResult:
@@ -65,6 +66,7 @@ def crawl_drive_tree(
     if max_items < 1:
         raise ValueError("max_items must be at least one")
 
+    excluded_folder_ids = excluded_folder_ids or set()
     root = DriveItemRecord(
         file_id=root_folder_id,
         name=root_name,
@@ -96,6 +98,9 @@ def crawl_drive_tree(
             continue
 
         for child in sorted(children, key=_sort_key):
+            if child.file_id in excluded_folder_ids and child.mime_type == FOLDER_MIME_TYPE:
+                continue
+
             if len(records) >= max_items:
                 errors.append(CrawlError(folder_id=folder_id, path=folder_path, message="Maximum item limit reached."))
                 return CrawlResult(items=tuple(records), errors=tuple(errors))
@@ -123,4 +128,3 @@ def crawl_drive_tree(
 def _sort_key(item: DriveListItem) -> tuple[int, str, str]:
     item_rank = 0 if item.mime_type == FOLDER_MIME_TYPE else 1
     return item_rank, item.name.casefold(), item.file_id
-
