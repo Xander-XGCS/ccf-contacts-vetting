@@ -103,6 +103,8 @@ The Drive text extraction bridge converts readable Drive file text into Sheet-re
 The parser run planner supports dry-run summaries before any live Sheet append.
 The vetting helper creates consistent credibility and human-review rows for researched people and companies.
 
+Spreadsheet-triggered research can be added with a bound Apps Script menu; see [docs/spreadsheet-trigger.md](docs/spreadsheet-trigger.md).
+
 ## Roadmap
 
 1. Define the workbook schema and Drive evidence model.
