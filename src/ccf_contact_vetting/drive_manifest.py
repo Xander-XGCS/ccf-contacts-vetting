@@ -131,11 +131,17 @@ def diff_manifests(previous: list[DriveItemRecord], current: list[DriveItemRecor
     return changes
 
 
-def propose_structure_suggestions(items: list[DriveItemRecord], root_folder_id: str) -> list[StructureSuggestion]:
+def propose_structure_suggestions(
+    items: list[DriveItemRecord],
+    root_folder_id: str,
+    *,
+    excluded_file_ids: set[str] | None = None,
+) -> list[StructureSuggestion]:
+    excluded_file_ids = excluded_file_ids or set()
     suggestions: list[StructureSuggestion] = []
     suggestions.extend(_suggest_trimmed_folder_names(items))
     suggestions.extend(_suggest_duplicate_folder_review(items))
-    suggestions.extend(_suggest_root_file_intake(items, root_folder_id))
+    suggestions.extend(_suggest_root_file_intake(items, root_folder_id, excluded_file_ids))
     return sorted(suggestions, key=lambda suggestion: (suggestion.suggestion_type, suggestion.current_path, suggestion.target_file_id))
 
 
@@ -188,9 +194,15 @@ def _suggest_duplicate_folder_review(items: list[DriveItemRecord]) -> list[Struc
     return suggestions
 
 
-def _suggest_root_file_intake(items: list[DriveItemRecord], root_folder_id: str) -> list[StructureSuggestion]:
+def _suggest_root_file_intake(
+    items: list[DriveItemRecord],
+    root_folder_id: str,
+    excluded_file_ids: set[str],
+) -> list[StructureSuggestion]:
     suggestions: list[StructureSuggestion] = []
     for item in items:
+        if item.file_id in excluded_file_ids:
+            continue
         if item.parent_folder_id != root_folder_id or item.item_type not in {"File", "Shortcut"}:
             continue
         suggestions.append(

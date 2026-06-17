@@ -27,7 +27,7 @@ That keeps the crawler testable without live Drive access and lets the runtime-s
 
 ## Next Adapter Step
 
-The next step is a Google Drive connector adapter that maps folder-listing results into `DriveListItem` objects, then writes:
+The Google Drive connector adapter maps folder-listing results into `DriveListItem` objects, then writes:
 
 - `File Inventory`
 - `Updates`
@@ -35,3 +35,6 @@ The next step is a Google Drive connector adapter that maps folder-listing resul
 
 The adapter should keep generated manifests and private file names out of GitHub.
 
+The current adapter helpers live in `src/ccf_contact_vetting/google_drive_connector.py`. They normalize connector file dictionaries and provide row builders for the live Google Sheet tabs.
+
+Structure suggestions can exclude known system artifacts, such as the relationship-intelligence workbook itself, so the crawler does not propose moving its own control spreadsheet into intake. Production Sheet writes should use the row builders with structured cell updates. Plain paste-style smoke writes are useful for proving the connector path, but Google Sheets may trim trailing whitespace in displayed cell values.

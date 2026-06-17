@@ -48,6 +48,21 @@ class DriveManifestTests(unittest.TestCase):
         self.assertIn("Move Root File To Intake", {suggestion.suggestion_type for suggestion in suggestions})
         self.assertIn("Review Duplicate Folder Name", {suggestion.suggestion_type for suggestion in suggestions})
 
+    def test_structure_suggestions_can_exclude_system_files_from_intake(self) -> None:
+        records = [
+            item("control-sheet", "CCF Relationship Intelligence", "CCF Relationship Intelligence", "root", item_type="File"),
+            item("loose-file", "Loose.pdf", "Loose.pdf", "root", item_type="File", mime_type="application/pdf"),
+        ]
+
+        suggestions = propose_structure_suggestions(records, root_folder_id="root", excluded_file_ids={"control-sheet"})
+
+        intake_target_ids = {
+            suggestion.target_file_id
+            for suggestion in suggestions
+            if suggestion.suggestion_type == "Move Root File To Intake"
+        }
+        self.assertEqual(intake_target_ids, {"loose-file"})
+
 
 def item(
     file_id: str,
