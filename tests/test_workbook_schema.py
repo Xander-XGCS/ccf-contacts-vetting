@@ -16,6 +16,9 @@ class WorkbookSchemaTests(unittest.TestCase):
     def test_required_identifier_columns_exist(self) -> None:
         required_by_tab = {
             "People": "Person ID",
+            "Drive Inventory": "Drive File ID",
+            "Sync Runs": "Run ID",
+            "Structure Suggestions": "Suggestion ID",
             "Companies": "Company ID",
             "Deals Projects": "Deal ID",
             "Relationships": "Relationship ID",
@@ -36,4 +39,3 @@ class WorkbookSchemaTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

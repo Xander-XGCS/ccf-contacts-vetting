@@ -3,6 +3,9 @@
   "note": "Generated-compatible reference for the initial Google Sheet workbook schema. The Python module is the editable source of truth.",
   "tabs": [
     "Dashboard",
+    "Drive Inventory",
+    "Sync Runs",
+    "Structure Suggestions",
     "People",
     "Companies",
     "Deals Projects",
@@ -13,4 +16,3 @@
     "Review Log"
   ]
 }
-

@@ -6,14 +6,18 @@
 - Define the initial Google Sheet schema.
 - Create research memo templates.
 - Add a local folder inventory command.
+- Add Drive manifest diffing and structure suggestion models.
 - Add tests for schema consistency.
 
 ## Phase 2: Drive And Sheets MVP
 
 - Connect to the target Google Drive contacts folder.
-- List contact folders and files.
+- Recursively list files, folders, and shortcuts from the configured root folder.
+- Maintain a Drive manifest keyed by stable file ID.
+- Detect new, modified, removed, moved, and renamed items between runs.
 - Create or update the native Google Sheet.
 - Write Drive folder links and source inventory rows.
+- Write sync summaries and approval-gated structure suggestions.
 - Add run logging and retry-safe updates.
 
 ## Phase 3: Extraction
@@ -40,7 +44,7 @@
 ## Phase 6: Operations
 
 - Add scheduled or manual run modes.
+- Add prompted update mode for "scan now", "scan changed files", and "full rebuild".
 - Add audit logs.
 - Add owner/reviewer assignments.
 - Add release workflow and documentation for nontechnical operators.
-

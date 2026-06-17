@@ -8,12 +8,17 @@ This backlog keeps the next useful work visible in GitHub. Issues can mirror or 
 - Add CI for schema and utility tests.
 - Confirm the target Google Drive contacts folder.
 - Confirm whether the first Google Sheet should be created from scratch or mapped to an existing workbook.
+- Add approval-gated structure suggestion workflow.
 
 ## Phase 2
 
 - Build Google Drive folder discovery.
-- Map contact folders to people and company candidates.
+- Crawl the full root folder recursively rather than relying on one fixed contact subfolder.
+- Maintain a manifest keyed by stable Google Drive file ID.
+- Compare manifests to detect new, modified, removed, moved, and renamed items.
+- Map folders and files to people, company, deal, and source candidates.
 - Write source inventory rows into the workbook.
+- Write sync run rows and proposed file-structure cleanup rows.
 - Add run logs and idempotent update behavior.
 
 ## Phase 3
@@ -36,4 +41,3 @@ This backlog keeps the next useful work visible in GitHub. Issues can mirror or 
 - Score intro paths by deal relevance, relationship strength, and recency.
 - Generate suggested outreach angles for human approval.
 - Track outreach status and stale relationships.
-

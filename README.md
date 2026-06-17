@@ -10,12 +10,14 @@ The first production target is a smart Google Sheet backed by Drive folders and 
 
 The system should:
 
-- Inventory contact folders and source files in Google Drive.
+- Inventory the full Complete Capital Funding Google Drive folder recursively, even when the folder structure changes.
 - Extract people, companies, deals, projects, contact details, and relationship evidence.
+- Detect new, modified, removed, moved, and renamed Drive files across repeat runs.
 - Normalize duplicates and uncertain identity matches.
 - Research people and companies using public internet sources.
 - File research notes and source links back into the right Drive folders.
 - Update a Google Sheet with structured data, evidence links, confidence levels, and review status.
+- Suggest Drive file or folder cleanup actions, while requiring explicit approval before anything is moved or renamed.
 - Recommend who should talk to whom based on relationship paths, deal relevance, and outreach priority.
 
 ## Source Of Truth
@@ -42,6 +44,9 @@ Do not commit private contacts, deal documents, research artifacts, credentials,
 ## Initial Tabs
 
 - `Dashboard`
+- `Drive Inventory`
+- `Sync Runs`
+- `Structure Suggestions`
 - `People`
 - `Companies`
 - `Deals Projects`
@@ -67,18 +72,29 @@ Generate a Markdown view of the workbook schema:
 $env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli schema --format markdown
 ```
 
+Extract a Drive ID from a folder URL:
+
+```powershell
+$env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli drive-id --url "https://drive.google.com/drive/folders/..."
+```
+
 Inventory a locally synced/exported folder:
 
 ```powershell
 $env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli inventory-local --root "C:\path\to\folder" --output outputs\inventory.csv
 ```
 
+Generate approval-gated file structure suggestions from a Drive manifest:
+
+```powershell
+$env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli structure-suggestions --manifest outputs\drive_manifest.json --root-id "<folder-id>" --output outputs\structure_suggestions.csv
+```
+
 ## Roadmap
 
 1. Define the workbook schema and Drive evidence model.
-2. Build local folder inventory and parsing for exported/synced Drive content.
+2. Build local and Google Drive inventory with incremental change detection.
 3. Add Google Drive and Google Sheets connector integration.
 4. Add entity extraction and relationship graph generation.
 5. Add public internet research runs with source capture.
 6. Add human review, risk flags, and who-should-talk-to-who recommendations.
-

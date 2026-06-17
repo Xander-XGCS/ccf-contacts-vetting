@@ -40,14 +40,43 @@ GitHub should never store private contacts, confidential deal files, or raw rese
 ## Pipeline
 
 1. Inventory source folders and files.
-2. Extract entities and relationship hints.
-3. Normalize duplicates and uncertain identities.
-4. Update the workbook with structured rows.
-5. Queue entities for research.
-6. Research public sources and capture evidence.
-7. File research memos into Drive.
-8. Update the workbook with summaries, links, confidence, and review status.
-9. Recommend outreach paths and next best actions.
+2. Compare the current Drive manifest against the prior manifest.
+3. Record new, modified, removed, moved, and renamed items.
+4. Extract entities and relationship hints from changed or unprocessed files.
+5. Normalize duplicates and uncertain identities.
+6. Update the workbook with structured rows.
+7. Queue entities for research.
+8. Research public sources and capture evidence.
+9. File research memos into Drive.
+10. Update the workbook with summaries, links, confidence, and review status.
+11. Recommend outreach paths and next best actions.
+
+## Incremental Sync
+
+The folder tree is expected to change. The system should therefore treat Google Drive file IDs as stable primary keys and folder paths as mutable metadata.
+
+Each sync run should:
+
+- Crawl the configured root folder recursively.
+- Store a manifest row for every file, folder, and shortcut.
+- Compare file IDs against the prior manifest.
+- Detect new, modified, removed, moved, and renamed items.
+- Re-parse only new or changed files unless a full rebuild is requested.
+- Write a summary to the `Sync Runs` tab.
+
+## Structure Suggestions
+
+The system may propose folder cleanup, but it must not move or rename Drive files automatically.
+
+Examples of proposed actions:
+
+- Rename folders with trailing whitespace.
+- Review duplicate folder names under the same parent.
+- Move root-level loose files into an intake folder.
+- Create missing research memo folders.
+- Split mixed deal/contact folders when evidence supports it.
+
+Every suggestion should include a reason, target file ID, current path, proposed path or name, confidence, and status. Only approved suggestions should be applied.
 
 ## Human Review
 
@@ -58,4 +87,4 @@ The automation should flag uncertainty rather than bury it. Human review is requ
 - Conflicting source information
 - Recommended outreach involving sensitive relationships
 - Any conclusion that depends on private or non-public information
-
+- Any proposed Drive file move, folder move, or rename

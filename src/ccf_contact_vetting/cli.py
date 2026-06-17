@@ -4,6 +4,15 @@ import argparse
 import sys
 from pathlib import Path
 
+from .drive_manifest import (
+    diff_manifests,
+    extract_drive_id,
+    load_manifest,
+    propose_structure_suggestions,
+    write_changes_csv,
+    write_json_dataclasses,
+    write_suggestions_csv,
+)
 from .local_inventory import inventory_path, write_inventory_csv
 from .workbook_schema import schema_as_json, schema_as_markdown
 
@@ -27,6 +36,31 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Wrote {len(records)} file records to {args.output}")
         return 0
 
+    if args.command == "drive-id":
+        print(extract_drive_id(args.url))
+        return 0
+
+    if args.command == "diff-manifests":
+        previous = load_manifest(args.previous)
+        current = load_manifest(args.current)
+        changes = diff_manifests(previous, current)
+        if args.format == "json":
+            write_json_dataclasses(changes, args.output)
+        else:
+            write_changes_csv(changes, args.output)
+        print(f"Wrote {len(changes)} manifest changes to {args.output}")
+        return 0
+
+    if args.command == "structure-suggestions":
+        items = load_manifest(args.manifest)
+        suggestions = propose_structure_suggestions(items, args.root_id)
+        if args.format == "json":
+            write_json_dataclasses(suggestions, args.output)
+        else:
+            write_suggestions_csv(suggestions, args.output)
+        print(f"Wrote {len(suggestions)} structure suggestions to {args.output}")
+        return 0
+
     parser.print_help()
     return 1
 
@@ -46,9 +80,23 @@ def build_parser() -> argparse.ArgumentParser:
     inventory.add_argument("--root", type=Path, required=True, help="Folder to inventory.")
     inventory.add_argument("--output", type=Path, required=True, help="CSV output path.")
 
+    drive_id = subparsers.add_parser("drive-id", help="Extract a Google Drive file or folder ID from a URL.")
+    drive_id.add_argument("--url", required=True, help="Google Drive URL or raw ID.")
+
+    diff = subparsers.add_parser("diff-manifests", help="Compare two Drive manifest JSON files.")
+    diff.add_argument("--previous", type=Path, required=True)
+    diff.add_argument("--current", type=Path, required=True)
+    diff.add_argument("--output", type=Path, required=True)
+    diff.add_argument("--format", choices=("csv", "json"), default="csv")
+
+    suggestions = subparsers.add_parser("structure-suggestions", help="Create approval-gated Drive structure suggestions.")
+    suggestions.add_argument("--manifest", type=Path, required=True)
+    suggestions.add_argument("--root-id", required=True)
+    suggestions.add_argument("--output", type=Path, required=True)
+    suggestions.add_argument("--format", choices=("csv", "json"), default="csv")
+
     return parser
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

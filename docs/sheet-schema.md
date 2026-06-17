@@ -14,6 +14,68 @@ Columns:
 - Updated At
 - Link
 
+## Drive Inventory
+
+Purpose: One row per Drive file, folder, or shortcut discovered under the configured root folder.
+
+Columns:
+
+- Drive File ID
+- Name
+- MIME Type
+- Item Type
+- Current Path
+- Parent Folder ID
+- Drive URL
+- Created At
+- Modified At
+- Last Seen At
+- Parsed Status
+- Entity Links
+- Content Fingerprint
+- Notes
+
+## Sync Runs
+
+Purpose: Audit trail for automated or prompted folder scans.
+
+Columns:
+
+- Run ID
+- Trigger
+- Root Folder ID
+- Started At
+- Completed At
+- Status
+- Items Scanned
+- New Items
+- Modified Items
+- Removed Items
+- Moved Or Renamed Items
+- Errors
+- Notes
+
+## Structure Suggestions
+
+Purpose: Approval queue for AI-suggested Drive folder cleanup actions.
+
+Columns:
+
+- Suggestion ID
+- Suggestion Type
+- Target File ID
+- Target Name
+- Current Path
+- Proposed Path
+- Proposed Name
+- Reason
+- Confidence
+- Status
+- Approved By
+- Approved At
+- Applied At
+- Notes
+
 ## People
 
 Purpose: One row per known person.
@@ -181,4 +243,3 @@ Columns:
 - Notes
 - Reviewed At
 - Follow Up Required
-

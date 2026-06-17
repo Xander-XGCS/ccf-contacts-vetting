@@ -32,6 +32,65 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
+        name="Drive Inventory",
+        purpose="One row per Drive file, folder, or shortcut discovered under the configured root folder.",
+        columns=(
+            Column("Drive File ID", "Stable Google Drive file identifier.", required=True),
+            Column("Name", "Current Drive item name.", required=True),
+            Column("MIME Type", "Google Drive MIME type."),
+            Column("Item Type", "Folder, File, Shortcut, or Unknown."),
+            Column("Current Path", "Best known path from the configured root folder."),
+            Column("Parent Folder ID", "Immediate parent folder identifier."),
+            Column("Drive URL", "Drive web link.", kind="url"),
+            Column("Created At", "Drive creation timestamp.", kind="datetime"),
+            Column("Modified At", "Drive modified timestamp.", kind="datetime"),
+            Column("Last Seen At", "Most recent sync timestamp that saw this item.", kind="datetime"),
+            Column("Parsed Status", "Not Parsed, Parsed, Skipped, Error, or Needs Review."),
+            Column("Entity Links", "People, companies, deals, or sources linked to this item."),
+            Column("Content Fingerprint", "Optional content or metadata fingerprint for change detection."),
+            Column("Notes", "Inventory notes."),
+        ),
+    ),
+    Tab(
+        name="Sync Runs",
+        purpose="Audit trail for automated or prompted folder scans.",
+        columns=(
+            Column("Run ID", "Stable sync run identifier.", required=True),
+            Column("Trigger", "Manual, Prompted, Scheduled, Webhook, or Full Rebuild."),
+            Column("Root Folder ID", "Configured Drive root folder identifier.", required=True),
+            Column("Started At", "Run start timestamp.", kind="datetime"),
+            Column("Completed At", "Run completion timestamp.", kind="datetime"),
+            Column("Status", "Running, Complete, Failed, or Needs Review."),
+            Column("Items Scanned", "Total discovered items.", kind="number"),
+            Column("New Items", "New item count.", kind="number"),
+            Column("Modified Items", "Modified item count.", kind="number"),
+            Column("Removed Items", "Removed item count.", kind="number"),
+            Column("Moved Or Renamed Items", "Moved or renamed item count.", kind="number"),
+            Column("Errors", "Error count or summary."),
+            Column("Notes", "Run notes."),
+        ),
+    ),
+    Tab(
+        name="Structure Suggestions",
+        purpose="Approval queue for AI-suggested Drive folder cleanup actions.",
+        columns=(
+            Column("Suggestion ID", "Stable suggestion identifier.", required=True),
+            Column("Suggestion Type", "Rename, Move, Merge Review, Split Review, or Other."),
+            Column("Target File ID", "Drive file or folder identifier for the proposed action.", required=True),
+            Column("Target Name", "Current target name."),
+            Column("Current Path", "Current Drive path."),
+            Column("Proposed Path", "Proposed Drive path when applicable."),
+            Column("Proposed Name", "Proposed Drive name when applicable."),
+            Column("Reason", "Why the suggestion was made."),
+            Column("Confidence", "High, Medium, Low, or Needs Review."),
+            Column("Status", "Proposed, Approved, Rejected, Applied, or Superseded."),
+            Column("Approved By", "Human approver."),
+            Column("Approved At", "Approval timestamp.", kind="datetime"),
+            Column("Applied At", "Application timestamp.", kind="datetime"),
+            Column("Notes", "Reviewer notes."),
+        ),
+    ),
+    Tab(
         name="People",
         purpose="One row per known person.",
         columns=(
@@ -211,4 +270,3 @@ def schema_as_markdown() -> str:
             lines.append(f"| {column.name} | {column.kind} | {required} | {column.description} |")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
-
