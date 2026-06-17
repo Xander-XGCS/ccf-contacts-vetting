@@ -100,6 +100,7 @@ $env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli extract-text --input ou
 See [docs/extraction.md](docs/extraction.md) for how deterministic extraction, duplicate matching, and AI-assisted vetting are separated.
 
 The Drive text extraction bridge converts readable Drive file text into Sheet-ready candidate rows for review tabs.
+The parser run planner supports dry-run summaries before any live Sheet append.
 
 ## Roadmap
 
