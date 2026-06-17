@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local config and secrets
+.env
+.env.*
+!.env.example
+credentials/
+*.key
+*.pem
+*.p12
+token*.json
+
+# Private or generated business data
+data/
+exports/
+outputs/
+research-artifacts/
+local-drive-exports/
+fixtures/private/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+

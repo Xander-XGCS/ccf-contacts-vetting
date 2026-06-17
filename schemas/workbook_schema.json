@@ -1,0 +1,16 @@
+{
+  "source": "src/ccf_contact_vetting/workbook_schema.py",
+  "note": "Generated-compatible reference for the initial Google Sheet workbook schema. The Python module is the editable source of truth.",
+  "tabs": [
+    "Dashboard",
+    "People",
+    "Companies",
+    "Deals Projects",
+    "Relationships",
+    "Research Queue",
+    "Sources",
+    "Who Should Talk To Who",
+    "Review Log"
+  ]
+}
+
