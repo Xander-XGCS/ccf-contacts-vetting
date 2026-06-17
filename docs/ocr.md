@@ -9,7 +9,24 @@ The parser now supports OCR in two ways:
 1. If a Drive worker implements `fetch_ocr_text(record)`, `parse_drive_records` will call it when:
    - a supported text file returns empty text, or
    - an OCR-only image file is encountered.
-2. For local files, the CLI can OCR PDFs and images using Tesseract plus Poppler:
+2. `DriveOcrTextFetcher` can be used by that worker to download the raw Drive file into a local cache and run the same OCR pipeline:
+
+```python
+from pathlib import Path
+
+from ccf_contact_vetting.drive_ocr_fetcher import DriveOcrTextFetcher
+from ccf_contact_vetting.ocr import OcrConfig
+
+ocr_fetcher = DriveOcrTextFetcher(
+    downloader=google_drive_raw_downloader,
+    cache_dir=Path("outputs/ocr-cache"),
+    ocr_config=OcrConfig(max_pdf_pages=10),
+)
+```
+
+The downloader is the runtime-specific piece. In Codex it can call the Google Drive connector's raw-file fetch path; in a hosted worker it can use a service-account Drive API download.
+
+3. For local files, the CLI can OCR PDFs and images using Tesseract plus Poppler:
 
 ```powershell
 $env:PYTHONPATH="src"; python -m ccf_contact_vetting.cli ocr-file --input "Seller CIS.pdf" --mime-type application/pdf --output outputs\seller-cis.txt
@@ -21,6 +38,11 @@ Install these on the worker host when local OCR is needed:
 
 - Tesseract OCR, available as `tesseract`
 - Poppler, available as `pdftoppm`
+
+On Windows, the app will also look for Tesseract in the common install locations:
+
+- `C:\Program Files\Tesseract-OCR\tesseract.exe`
+- `C:\Program Files (x86)\Tesseract-OCR\tesseract.exe`
 
 The tool names can be overridden:
 

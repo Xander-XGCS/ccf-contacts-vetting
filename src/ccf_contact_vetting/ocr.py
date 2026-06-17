@@ -19,6 +19,11 @@ SUPPORTED_OCR_MIME_TYPES = {
     "image/webp",
 }
 
+DEFAULT_TESSERACT_PATHS = (
+    Path("C:/Program Files/Tesseract-OCR/tesseract.exe"),
+    Path("C:/Program Files (x86)/Tesseract-OCR/tesseract.exe"),
+)
+
 
 class OcrError(RuntimeError):
     """Base OCR error."""
@@ -53,10 +58,14 @@ def ocr_file(path: Path, mime_type: str, config: OcrConfig | None = None) -> str
 
 def ocr_image(path: Path, config: OcrConfig | None = None) -> str:
     active_config = config or OcrConfig()
-    _require_command(active_config.tesseract_cmd, "Tesseract OCR")
+    tesseract_cmd = _resolve_command(
+        active_config.tesseract_cmd,
+        "Tesseract OCR",
+        default_candidates=DEFAULT_TESSERACT_PATHS,
+    )
     result = _run(
         [
-            active_config.tesseract_cmd,
+            tesseract_cmd,
             str(path),
             "stdout",
             "-l",
@@ -69,33 +78,55 @@ def ocr_image(path: Path, config: OcrConfig | None = None) -> str:
 
 def ocr_pdf(path: Path, config: OcrConfig | None = None) -> str:
     active_config = config or OcrConfig()
-    _require_command(active_config.pdftoppm_cmd, "Poppler pdftoppm")
-    _require_command(active_config.tesseract_cmd, "Tesseract OCR")
+    pdftoppm_cmd = _resolve_command(active_config.pdftoppm_cmd, "Poppler pdftoppm")
+    tesseract_cmd = _resolve_command(
+        active_config.tesseract_cmd,
+        "Tesseract OCR",
+        default_candidates=DEFAULT_TESSERACT_PATHS,
+    )
+    resolved_config = OcrConfig(
+        tesseract_cmd=tesseract_cmd,
+        pdftoppm_cmd=pdftoppm_cmd,
+        language=active_config.language,
+        dpi=active_config.dpi,
+        timeout_seconds=active_config.timeout_seconds,
+        max_pdf_pages=active_config.max_pdf_pages,
+    )
 
     with tempfile.TemporaryDirectory(prefix="ccf-ocr-") as temp_dir:
         output_prefix = Path(temp_dir) / "page"
         command = [
-            active_config.pdftoppm_cmd,
+            resolved_config.pdftoppm_cmd,
             "-r",
-            str(active_config.dpi),
+            str(resolved_config.dpi),
             "-png",
         ]
-        if active_config.max_pdf_pages is not None:
-            command.extend(["-f", "1", "-l", str(active_config.max_pdf_pages)])
+        if resolved_config.max_pdf_pages is not None:
+            command.extend(["-f", "1", "-l", str(resolved_config.max_pdf_pages)])
         command.extend([str(path), str(output_prefix)])
-        _run(command, timeout_seconds=active_config.timeout_seconds)
+        _run(command, timeout_seconds=resolved_config.timeout_seconds)
 
         page_images = sorted(Path(temp_dir).glob("page-*.png"))
         if not page_images:
             raise OcrError(f"No OCR page images were rendered for {path}")
 
-        page_text = [ocr_image(page_image, active_config) for page_image in page_images]
+        page_text = [ocr_image(page_image, resolved_config) for page_image in page_images]
         return "\n\n".join(text for text in page_text if text).strip()
 
 
-def _require_command(command: str, label: str) -> None:
-    if shutil.which(command) is None:
-        raise OcrUnavailableError(f"{label} command not found: {command}")
+def _resolve_command(command: str, label: str, *, default_candidates: tuple[Path, ...] = ()) -> str:
+    if shutil.which(command) is not None:
+        return command
+
+    command_path = Path(command)
+    if (command_path.is_absolute() or command_path.parent != Path(".")) and command_path.exists():
+        return str(command_path)
+
+    for candidate in default_candidates:
+        if candidate.exists():
+            return str(candidate)
+
+    raise OcrUnavailableError(f"{label} command not found: {command}")
 
 
 def _run(command: list[str], *, timeout_seconds: int) -> subprocess.CompletedProcess[str]:

@@ -31,8 +31,25 @@ class OcrTests(unittest.TestCase):
 
     def test_missing_tesseract_raises_unavailable(self) -> None:
         with patch("ccf_contact_vetting.ocr.shutil.which", return_value=None):
-            with self.assertRaises(OcrUnavailableError):
-                ocr_image(Path("seller.png"))
+            with patch("ccf_contact_vetting.ocr.Path.exists", return_value=False):
+                with self.assertRaises(OcrUnavailableError):
+                    ocr_image(Path("seller.png"))
+
+    def test_default_tesseract_uses_common_windows_install_path(self) -> None:
+        completed = subprocess.CompletedProcess(
+            args=["tesseract"],
+            returncode=0,
+            stdout="Anslem N. Gbemudu\n",
+            stderr="",
+        )
+
+        with patch("ccf_contact_vetting.ocr.shutil.which", return_value=None):
+            with patch("ccf_contact_vetting.ocr.Path.exists", return_value=True):
+                with patch("ccf_contact_vetting.ocr.subprocess.run", return_value=completed) as run:
+                    text = ocr_image(Path("seller.png"))
+
+        self.assertEqual(text, "Anslem N. Gbemudu")
+        self.assertEqual(run.call_args.args[0][0], "C:\\Program Files\\Tesseract-OCR\\tesseract.exe")
 
     def test_unsupported_mime_type_raises_error(self) -> None:
         with self.assertRaises(OcrError):
