@@ -43,18 +43,19 @@ Do not commit private contacts, deal documents, research artifacts, credentials,
 
 ## Initial Tabs
 
-- `Dashboard`
-- `Drive Inventory`
-- `Sync Runs`
-- `Structure Suggestions`
+- `Start Here`
+- `File Inventory`
+- `Updates`
+- `Suggested Folder Changes`
 - `People`
 - `Companies`
-- `Deals Projects`
+- `Deals & Projects`
 - `Relationships`
 - `Research Queue`
-- `Sources`
-- `Who Should Talk To Who`
-- `Review Log`
+- `Vetting Research`
+- `Evidence Sources`
+- `Intro Recommendations`
+- `Human Review`
 
 See [docs/sheet-schema.md](docs/sheet-schema.md) for the initial workbook design.
 

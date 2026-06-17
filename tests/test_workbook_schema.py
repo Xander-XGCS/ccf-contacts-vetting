@@ -16,16 +16,17 @@ class WorkbookSchemaTests(unittest.TestCase):
     def test_required_identifier_columns_exist(self) -> None:
         required_by_tab = {
             "People": "Person ID",
-            "Drive Inventory": "Drive File ID",
-            "Sync Runs": "Run ID",
-            "Structure Suggestions": "Suggestion ID",
+            "File Inventory": "Drive File ID",
+            "Updates": "Run ID",
+            "Suggested Folder Changes": "Suggestion ID",
             "Companies": "Company ID",
-            "Deals Projects": "Deal ID",
+            "Deals & Projects": "Deal ID",
             "Relationships": "Relationship ID",
             "Research Queue": "Queue ID",
-            "Sources": "Source ID",
-            "Who Should Talk To Who": "Recommendation ID",
-            "Review Log": "Review ID",
+            "Vetting Research": "Vetting ID",
+            "Evidence Sources": "Source ID",
+            "Intro Recommendations": "Recommendation ID",
+            "Human Review": "Review ID",
         }
         tabs = {tab.name: tab for tab in WORKBOOK_SCHEMA}
         for tab_name, column_name in required_by_tab.items():

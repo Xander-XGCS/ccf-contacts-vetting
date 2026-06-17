@@ -26,14 +26,14 @@ Do not commit the real folder ID or any generated manifest containing private fi
 3. Compare the current manifest to the previous manifest.
 4. Mark items as new, modified, removed, or moved/renamed.
 5. Parse only new and modified files unless the run is a full rebuild.
-6. Update `Drive Inventory` and `Sync Runs`.
+6. Update `File Inventory` and `Updates`.
 7. Queue entity extraction and research from changed files.
 
 ## File Structure Suggestions
 
 The AI can propose structure edits, but it cannot apply them directly.
 
-Suggestions belong in the `Structure Suggestions` tab with:
+Suggestions belong in the `Suggested Folder Changes` tab with:
 
 - Target file ID
 - Current path

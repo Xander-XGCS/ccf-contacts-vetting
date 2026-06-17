@@ -27,6 +27,20 @@ Use confidence levels consistently:
 - `Low`: Weak, ambiguous, or partial match.
 - `Needs Review`: Identity or claim could materially affect decisions and requires a person to confirm.
 
+## Credibility Score
+
+Use a 0 to 100 credibility score as a summary, not as a substitute for evidence. The score should be visible on `People`, while the detailed reasoning belongs in `Vetting Research`.
+
+Suggested bands:
+
+- `A`: 85 to 100, strong source-backed credibility.
+- `B`: 70 to 84, generally credible with limited open questions.
+- `C`: 50 to 69, mixed or incomplete evidence.
+- `D`: 0 to 49, weak evidence, serious concerns, or poor fit.
+- `Needs Review`: identity conflict, high-impact risk flag, or insufficient evidence.
+
+The score should consider identity confidence, source quality, professional track record, deal relevance, risk flag severity, positive signals, and unresolved questions. Serious risk flags or uncertain identity should cap the grade at `Needs Review` until a human reviews it.
+
 ## Red Flags
 
 Potential red flags should be descriptive, source-backed, and neutral. Examples:
@@ -44,4 +58,3 @@ The system should not make legal conclusions. It should surface source-backed it
 ## Privacy And Public Repo Boundary
 
 No private contact data, deal documents, personal research files, or credentials belong in GitHub. GitHub stores the system. Google Drive stores the operational data.
-

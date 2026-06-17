@@ -62,7 +62,7 @@ Each sync run should:
 - Compare file IDs against the prior manifest.
 - Detect new, modified, removed, moved, and renamed items.
 - Re-parse only new or changed files unless a full rebuild is requested.
-- Write a summary to the `Sync Runs` tab.
+- Write a summary to the `Updates` tab.
 
 ## Structure Suggestions
 
@@ -76,7 +76,7 @@ Examples of proposed actions:
 - Create missing research memo folders.
 - Split mixed deal/contact folders when evidence supports it.
 
-Every suggestion should include a reason, target file ID, current path, proposed path or name, confidence, and status. Only approved suggestions should be applied.
+Every suggestion should include a reason, target file ID, current path, proposed path or name, confidence, and status in `Suggested Folder Changes`. Only approved suggestions should be applied.
 
 ## Human Review
 

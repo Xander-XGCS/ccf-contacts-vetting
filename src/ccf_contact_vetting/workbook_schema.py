@@ -21,18 +21,19 @@ class Tab:
 
 WORKBOOK_SCHEMA: tuple[Tab, ...] = (
     Tab(
-        name="Dashboard",
-        purpose="High-level operating status.",
+        name="Start Here",
+        purpose="Friendly operating dashboard and tab guide for non-technical users.",
         columns=(
             Column("Metric", "Status metric name.", required=True),
             Column("Value", "Current metric value."),
-            Column("Owner", "Person responsible for the metric."),
-            Column("Updated At", "Last update timestamp.", kind="datetime"),
+            Column("What It Means", "Plain-English explanation of the metric."),
+            Column("Next Action", "Recommended next step."),
+            Column("Owner", "Person responsible for the item."),
             Column("Link", "Optional supporting Drive or Sheet link.", kind="url"),
         ),
     ),
     Tab(
-        name="Drive Inventory",
+        name="File Inventory",
         purpose="One row per Drive file, folder, or shortcut discovered under the configured root folder.",
         columns=(
             Column("Drive File ID", "Stable Google Drive file identifier.", required=True),
@@ -52,7 +53,7 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
-        name="Sync Runs",
+        name="Updates",
         purpose="Audit trail for automated or prompted folder scans.",
         columns=(
             Column("Run ID", "Stable sync run identifier.", required=True),
@@ -71,7 +72,7 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
-        name="Structure Suggestions",
+        name="Suggested Folder Changes",
         purpose="Approval queue for AI-suggested Drive folder cleanup actions.",
         columns=(
             Column("Suggestion ID", "Stable suggestion identifier.", required=True),
@@ -109,6 +110,9 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
             Column("Vetting Status", "Not Started, In Progress, Reviewed, or Blocked."),
             Column("Risk Level", "None, Low, Medium, High, or Needs Review."),
             Column("Confidence", "High, Medium, Low, or Needs Review."),
+            Column("Credibility Score", "Summary credibility score from 0 to 100.", kind="number"),
+            Column("Credibility Grade", "A, B, C, D, or Needs Review."),
+            Column("Vetting Research", "Link to detailed vetting research row or memo.", kind="url"),
             Column("Research Memo", "Drive link to research memo.", kind="url"),
             Column("Source Links", "Evidence links supporting the row."),
             Column("Last Researched At", "Last research timestamp.", kind="datetime"),
@@ -141,11 +145,11 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
-        name="Deals Projects",
+        name="Deals & Projects",
         purpose="One row per deal, project, or opportunity.",
         columns=(
             Column("Deal ID", "Stable deal or project identifier.", required=True),
-            Column("Deal Project Name", "Name of the deal, project, or opportunity.", required=True),
+            Column("Deal / Project Name", "Name of the deal, project, or opportunity.", required=True),
             Column("Status", "Current status."),
             Column("Type", "Deal, project, opportunity, referral, or other type."),
             Column("Amount", "Known dollar amount.", kind="currency"),
@@ -202,7 +206,34 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
-        name="Sources",
+        name="Vetting Research",
+        purpose="Detailed credibility scoring, evidence, risk flags, and reviewer status for people and companies.",
+        columns=(
+            Column("Vetting ID", "Stable vetting record identifier.", required=True),
+            Column("Entity Type", "Person or Company.", required=True),
+            Column("Entity ID", "Stable entity identifier.", required=True),
+            Column("Entity Name", "Human-readable entity name.", required=True),
+            Column("Research Status", "Queued, In Progress, Reviewed, Blocked, or Needs Review."),
+            Column("Credibility Score", "Overall credibility score from 0 to 100.", kind="number"),
+            Column("Credibility Grade", "A, B, C, D, or Needs Review."),
+            Column("Score Confidence", "High, Medium, Low, or Needs Review."),
+            Column("Identity Confidence", "High, Medium, Low, or Needs Review."),
+            Column("Source Quality", "High, Medium, Low, or Needs Review."),
+            Column("Professional Track Record", "Strong, Moderate, Limited, Negative, or Unknown."),
+            Column("Deal Relevance", "Strong, Moderate, Limited, Negative, or Unknown."),
+            Column("Risk Flag Severity", "None, Low, Medium, High, or Needs Review."),
+            Column("Positive Signals", "Positive credibility signals found during vetting."),
+            Column("Red Flags", "Source-backed risk indicators or conflicts."),
+            Column("Open Questions", "Questions that still need review."),
+            Column("Evidence Links", "Links to sources supporting the vetting record."),
+            Column("Last Researched At", "Last vetting research timestamp.", kind="datetime"),
+            Column("Reviewer", "Human reviewer."),
+            Column("Human Review Required", "Whether a human must review.", kind="boolean"),
+            Column("Notes", "Reviewer notes."),
+        ),
+    ),
+    Tab(
+        name="Evidence Sources",
         purpose="Source library for Drive files and public web evidence.",
         columns=(
             Column("Source ID", "Stable source identifier.", required=True),
@@ -218,7 +249,7 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
-        name="Who Should Talk To Who",
+        name="Intro Recommendations",
         purpose="Outreach and introduction recommendations.",
         columns=(
             Column("Recommendation ID", "Stable recommendation identifier.", required=True),
@@ -237,7 +268,7 @@ WORKBOOK_SCHEMA: tuple[Tab, ...] = (
         ),
     ),
     Tab(
-        name="Review Log",
+        name="Human Review",
         purpose="Human review trail and audit notes.",
         columns=(
             Column("Review ID", "Stable review identifier.", required=True),

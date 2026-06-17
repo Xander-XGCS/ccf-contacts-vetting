@@ -33,6 +33,7 @@ This backlog keeps the next useful work visible in GitHub. Issues can mirror or 
 - Add public internet research for queued entities.
 - File research memos and source links back into Drive.
 - Add risk flag classification and confidence scoring.
+- Populate `Vetting Research` with credibility scores, score confidence, positive signals, red flags, and open questions.
 - Require human review for ambiguous or sensitive findings.
 
 ## Phase 5

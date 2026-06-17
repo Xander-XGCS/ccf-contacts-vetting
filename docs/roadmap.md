@@ -33,6 +33,7 @@
 - Store source URLs, summaries, and accessed dates.
 - Write research memos into the appropriate Drive folders.
 - Add red flag and open question classification.
+- Add detailed credibility scoring in `Vetting Research` and summary scores in `People`.
 
 ## Phase 5: Recommendations
 

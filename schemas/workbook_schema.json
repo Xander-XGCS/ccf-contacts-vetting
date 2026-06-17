@@ -1,8 +1,8 @@
 {
   "tabs": [
     {
-      "name": "Dashboard",
-      "purpose": "High-level operating status.",
+      "name": "Start Here",
+      "purpose": "Friendly operating dashboard and tab guide for non-technical users.",
       "columns": [
         {
           "name": "Metric",
@@ -17,15 +17,21 @@
           "required": false
         },
         {
-          "name": "Owner",
-          "description": "Person responsible for the metric.",
+          "name": "What It Means",
+          "description": "Plain-English explanation of the metric.",
           "kind": "text",
           "required": false
         },
         {
-          "name": "Updated At",
-          "description": "Last update timestamp.",
-          "kind": "datetime",
+          "name": "Next Action",
+          "description": "Recommended next step.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Owner",
+          "description": "Person responsible for the item.",
+          "kind": "text",
           "required": false
         },
         {
@@ -37,7 +43,7 @@
       ]
     },
     {
-      "name": "Drive Inventory",
+      "name": "File Inventory",
       "purpose": "One row per Drive file, folder, or shortcut discovered under the configured root folder.",
       "columns": [
         {
@@ -127,7 +133,7 @@
       ]
     },
     {
-      "name": "Sync Runs",
+      "name": "Updates",
       "purpose": "Audit trail for automated or prompted folder scans.",
       "columns": [
         {
@@ -211,7 +217,7 @@
       ]
     },
     {
-      "name": "Structure Suggestions",
+      "name": "Suggested Folder Changes",
       "purpose": "Approval queue for AI-suggested Drive folder cleanup actions.",
       "columns": [
         {
@@ -395,6 +401,24 @@
           "required": false
         },
         {
+          "name": "Credibility Score",
+          "description": "Summary credibility score from 0 to 100.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "Credibility Grade",
+          "description": "A, B, C, D, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Vetting Research",
+          "description": "Link to detailed vetting research row or memo.",
+          "kind": "url",
+          "required": false
+        },
+        {
           "name": "Research Memo",
           "description": "Drive link to research memo.",
           "kind": "url",
@@ -541,7 +565,7 @@
       ]
     },
     {
-      "name": "Deals Projects",
+      "name": "Deals & Projects",
       "purpose": "One row per deal, project, or opportunity.",
       "columns": [
         {
@@ -551,7 +575,7 @@
           "required": true
         },
         {
-          "name": "Deal Project Name",
+          "name": "Deal / Project Name",
           "description": "Name of the deal, project, or opportunity.",
           "kind": "text",
           "required": true
@@ -817,7 +841,139 @@
       ]
     },
     {
-      "name": "Sources",
+      "name": "Vetting Research",
+      "purpose": "Detailed credibility scoring, evidence, risk flags, and reviewer status for people and companies.",
+      "columns": [
+        {
+          "name": "Vetting ID",
+          "description": "Stable vetting record identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Entity Type",
+          "description": "Person or Company.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Entity ID",
+          "description": "Stable entity identifier.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Entity Name",
+          "description": "Human-readable entity name.",
+          "kind": "text",
+          "required": true
+        },
+        {
+          "name": "Research Status",
+          "description": "Queued, In Progress, Reviewed, Blocked, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Credibility Score",
+          "description": "Overall credibility score from 0 to 100.",
+          "kind": "number",
+          "required": false
+        },
+        {
+          "name": "Credibility Grade",
+          "description": "A, B, C, D, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Score Confidence",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Identity Confidence",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Source Quality",
+          "description": "High, Medium, Low, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Professional Track Record",
+          "description": "Strong, Moderate, Limited, Negative, or Unknown.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Deal Relevance",
+          "description": "Strong, Moderate, Limited, Negative, or Unknown.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Risk Flag Severity",
+          "description": "None, Low, Medium, High, or Needs Review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Positive Signals",
+          "description": "Positive credibility signals found during vetting.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Red Flags",
+          "description": "Source-backed risk indicators or conflicts.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Open Questions",
+          "description": "Questions that still need review.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Evidence Links",
+          "description": "Links to sources supporting the vetting record.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Last Researched At",
+          "description": "Last vetting research timestamp.",
+          "kind": "datetime",
+          "required": false
+        },
+        {
+          "name": "Reviewer",
+          "description": "Human reviewer.",
+          "kind": "text",
+          "required": false
+        },
+        {
+          "name": "Human Review Required",
+          "description": "Whether a human must review.",
+          "kind": "boolean",
+          "required": false
+        },
+        {
+          "name": "Notes",
+          "description": "Reviewer notes.",
+          "kind": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Evidence Sources",
       "purpose": "Source library for Drive files and public web evidence.",
       "columns": [
         {
@@ -883,7 +1039,7 @@
       ]
     },
     {
-      "name": "Who Should Talk To Who",
+      "name": "Intro Recommendations",
       "purpose": "Outreach and introduction recommendations.",
       "columns": [
         {
@@ -967,7 +1123,7 @@
       ]
     },
     {
-      "name": "Review Log",
+      "name": "Human Review",
       "purpose": "Human review trail and audit notes.",
       "columns": [
         {

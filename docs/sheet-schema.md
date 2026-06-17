@@ -2,19 +2,20 @@
 
 This is the initial workbook design. The code representation lives in `src/ccf_contact_vetting/workbook_schema.py`.
 
-## Dashboard
+## Start Here
 
-Purpose: High-level operating status.
+Purpose: Friendly operating dashboard and tab guide for non-technical users.
 
 Columns:
 
 - Metric
 - Value
+- What It Means
+- Next Action
 - Owner
-- Updated At
 - Link
 
-## Drive Inventory
+## File Inventory
 
 Purpose: One row per Drive file, folder, or shortcut discovered under the configured root folder.
 
@@ -35,7 +36,7 @@ Columns:
 - Content Fingerprint
 - Notes
 
-## Sync Runs
+## Updates
 
 Purpose: Audit trail for automated or prompted folder scans.
 
@@ -55,7 +56,7 @@ Columns:
 - Errors
 - Notes
 
-## Structure Suggestions
+## Suggested Folder Changes
 
 Purpose: Approval queue for AI-suggested Drive folder cleanup actions.
 
@@ -97,6 +98,9 @@ Columns:
 - Vetting Status
 - Risk Level
 - Confidence
+- Credibility Score
+- Credibility Grade
+- Vetting Research
 - Research Memo
 - Source Links
 - Last Researched At
@@ -128,14 +132,14 @@ Columns:
 - Next Action
 - Human Review Notes
 
-## Deals Projects
+## Deals & Projects
 
 Purpose: One row per deal, project, or opportunity.
 
 Columns:
 
 - Deal ID
-- Deal Project Name
+- Deal / Project Name
 - Status
 - Type
 - Amount
@@ -192,7 +196,35 @@ Columns:
 - Next Attempt At
 - Human Review Required
 
-## Sources
+## Vetting Research
+
+Purpose: Detailed credibility scoring, evidence, risk flags, and reviewer status for people and companies.
+
+Columns:
+
+- Vetting ID
+- Entity Type
+- Entity ID
+- Entity Name
+- Research Status
+- Credibility Score
+- Credibility Grade
+- Score Confidence
+- Identity Confidence
+- Source Quality
+- Professional Track Record
+- Deal Relevance
+- Risk Flag Severity
+- Positive Signals
+- Red Flags
+- Open Questions
+- Evidence Links
+- Last Researched At
+- Reviewer
+- Human Review Required
+- Notes
+
+## Evidence Sources
 
 Purpose: Source library for Drive files and public web evidence.
 
@@ -209,7 +241,7 @@ Columns:
 - Reliability
 - Notes
 
-## Who Should Talk To Who
+## Intro Recommendations
 
 Purpose: Outreach and introduction recommendations.
 
@@ -229,7 +261,7 @@ Columns:
 - Owner
 - Updated At
 
-## Review Log
+## Human Review
 
 Purpose: Human review trail and audit notes.
 
